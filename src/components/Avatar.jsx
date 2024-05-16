@@ -70,13 +70,15 @@ const corresponding = {
 export function Avatar(props) {
   console.log("fldkfjdkfj")
   const { nodes, scene, materials, animations: smileAnimation } = useGLTF("./models/FacialExp7.gltf");
-  console.log(smileAnimation)
+  // console.log(smileAnimation)
   // const [animation, setAnimation] = useState("Eyeblink_2");
   const group = useRef();
   // const { actions } = useAnimations(
   //   smileAnimation,
   //   group
   // );
+  const [facialExpression, setFacialExpression] = useState("")
+
 
 
   const {
@@ -103,19 +105,19 @@ export function Avatar(props) {
       options: Object.keys(facialExpressions),
       onChange: (value) => {
         console.log("Changing Face Exp!", value)
-        !false &&
-        Object.keys(nodes.Face.morphTargetDictionary).forEach((key) => {
-          const mapping = facialExpressions[value];
-          if (key === "Eyeblink_2" || key === "Eyeblink_2") { return;}
+        // !false &&
+        // Object.keys(nodes.Face.morphTargetDictionary).forEach((key) => {
+        //   const mapping = facialExpressions[value];
+        //   if (key === "Eyeblink_2" || key === "Eyeblink_2") { return;}
 
-          if (mapping && mapping[key]) {
-            console.log("changing: ", mapping, mapping[key])
-            lerpMorphTarget(key, mapping[key], 0.1);
-          } else {
-            lerpMorphTarget(key, 0, 0.1);
-          }
-        });
-        // setFacialExpression(value)
+        //   if (mapping && mapping[key]) {
+        //     console.log("changing: ", mapping, mapping[key])
+        //     lerpMorphTarget(key, mapping[key], 0.1);
+        //   } else {
+        //     lerpMorphTarget(key, 0, 0.1);
+        //   }
+        // });
+        setFacialExpression(value)
       },
     },
   });
@@ -125,22 +127,38 @@ export function Avatar(props) {
   const lipsync = JSON.parse(jsonFile);
 
   useFrame(() => {
+    ///////// exp1
+    !false &&
+    Object.keys(nodes.Face.morphTargetDictionary).forEach((key) => {
+      const mapping = facialExpressions[facialExpression];
+      if (key === "Eye_Blink_2") { return; }
 
+      if (mapping && mapping[key]) {
+        // console.log("changing: ", mapping, mapping[key])
+        lerpMorphTarget(key, mapping[key], 0.1);
+      } else {
+        lerpMorphTarget(key, 0, 0.1);
+      }
+    });
+    ///////// exp1
+
+    ///////// exp2
+    // const mapping = facialExpressions[facialExpression];
+    // if (!mapping) return;
+    // Object.keys(nodes.Face.morphTargetDictionary).forEach((key) => {
+    //   if (key === "Eye_Blink_2") return;
+
+    //   const value = mapping[key] || 0; // Default value if not mapped
+    //   lerpMorphTarget(key, value, 0.05); // Adjust speed for smoother transitions
+    // });
+    ///////// exp2
+
+
+    
     // lerpMorphTarget("Eyeblink_2", blink ? 1 : 0, 0.5);
-
     // console.log("HIIi")
     const currentAudioTime = audio.currentTime;
     if (audio.paused || audio.ended) {
-      // setAnimation("Idle");
-      // nodes.Face.morphTargetInfluences[
-      //   nodes.Face.morphTargetDictionary["Smile"]
-      // ] = THREE.MathUtils.lerp(
-      //   nodes.Face.morphTargetInfluences[
-      //     nodes.Face.morphTargetDictionary["Smile"]
-      //   ],
-      //   0.5,
-      //   0.01
-      // );
       return;
     }
 
@@ -154,6 +172,7 @@ export function Avatar(props) {
     //     0.01
     //   );
 
+    ////// LipSync-1
     Object.values(corresponding).forEach((value) => {
       if (!smoothMorphTarget) {
         nodes.Face.morphTargetInfluences[
@@ -209,10 +228,43 @@ export function Avatar(props) {
         break;
       }
     }
+    ////// LipSync-1
+
+
+
+    ////// LipSync-2
+    // Object.values(corresponding).forEach((value) => {
+    //   if (!smoothMorphTarget) {
+    //     nodes.Face.morphTargetInfluences[
+    //       nodes.Face.morphTargetDictionary[value]
+    //     ] = 0;
+    //   } else {
+    //     const targetInfluence = lipsync.mouthCues.reduce((acc, mouthCue) => {
+    //       const cueValue = corresponding[mouthCue.value];
+    //       if (value === cueValue && currentAudioTime >= mouthCue.start && currentAudioTime <= mouthCue.end) {
+    //         const intensity = mouthCue.intensity || 1; // Default intensity if not provided
+    //         acc = intensity;
+    //       }
+    //       return acc;
+    //     }, 0);
+        
+    //     nodes.Face.morphTargetInfluences[
+    //       nodes.Face.morphTargetDictionary[value]
+    //     ] = THREE.MathUtils.lerp(
+    //       nodes.Face.morphTargetInfluences[
+    //         nodes.Face.morphTargetDictionary[value]
+    //       ],
+    //       targetInfluence,
+    //       morphTargetSmoothing
+    //     );
+    //   }
+    // });
+    ////// LipSync-2
+
+
   });
 
 
-  // const [facialExpressions, setFacialExpressions] = useState("")
   // const [facialExpression, setBlink] = useState(1);
   // const [winkLeft, setWinkLeft] = useState(false);
   // const [winkRight, setWinkRight] = useState(false);
@@ -221,8 +273,6 @@ export function Avatar(props) {
 
   useEffect(() => {
     
-
-
     if (playAudio) {
       audio.play();
       if (script === "welcome") {
@@ -235,31 +285,16 @@ export function Avatar(props) {
       audio.pause();
     }
 
-
   }, [playAudio, script]);
 
 
 
   // ********************************** Eyes Blink Animation **********************************
-  // useEffect(() => {
-  //   let blinkTimeout;
-  //   const nextBlink = () => {
-  //     blinkTimeout = setTimeout(() => {
-  //       console.log("Next Blink")
-  //       setBlink(true);
-  //       setTimeout(() => {
-  //         setBlink(false);
-  //         nextBlink();
-  //       }, 200);
-  //     }, THREE.MathUtils.randInt(1000, 5000));
-  //   };
-  //   nextBlink();
-  //   return () => clearTimeout(blinkTimeout);
-  // }, []);
 
+    ////// EyeBlink-1
   useEffect(()=>{
     setInterval(() => {
-      console.log("HIIIIIII")
+      // console.log("****** Eye Blinked! ******")
       const closeFunc = () => {
         nodes.Face.morphTargetInfluences[nodes.Face.morphTargetDictionary["Eye_Blink_2"]] = 0;
       };
@@ -271,9 +306,10 @@ export function Avatar(props) {
       
     }, 5000);
   },[])
+    ////// EyeBlink-1
 
   
-
+  ////// EyeBlink-2
   // useEffect(() => {
   //   const blink = () => {
   //     const closeDuration = THREE.MathUtils.randInt(100, 200); // Short duration for closing
@@ -388,33 +424,14 @@ export function Avatar(props) {
   //     eyeBlinkClip.duration = 2; // Set the desired time scale
   //   }
   // }, [eyeBlinkClip]);
+  ////// EyeBlink-2
+  
 
+  
+  
 
-  const [, set] = useControls("MorphTarget", () =>
-    Object.assign(
-      {},
-      ...Object.keys(nodes.Face.morphTargetDictionary).map((key) => {
-        return {
-          [key]: {
-            label: key,
-            value: 0,
-            min: nodes.Face.morphTargetInfluences[
-              nodes.Face.morphTargetDictionary[key]
-            ],
-            max: 1,
-            onChange: (val) => {
-              if (true) {
-                // console.log("HII", key, val)
-                lerpMorphTarget(key, val, 1);
-              }
-            },
-          },
-        };
-      })
-    )
-  );
-
-
+  // *************************************** Lerp Function ***************************************
+    ////// LerpFunc-1
   const lerpMorphTarget = (target, value, speed = 0.1) => {
     scene.traverse((child) => {
       if (child.isMesh && child.morphTargetDictionary) {
@@ -434,7 +451,7 @@ export function Avatar(props) {
         // console.log(child)
 
         if (!false) {
-          console.log("setting")
+          // console.log("setting")
           try {
             set({
               [target]: value,
@@ -445,8 +462,30 @@ export function Avatar(props) {
       }
     });
   };
+  ////// LerpFunc-1
+
+  ////// LerpFunc-2
+  // const lerpMorphTarget = (target, value, speed = 0.1) => {
+  //   scene.traverse((child) => {
+  //     if (child.isMesh && child.morphTargetDictionary) {
+  //       const index = child.morphTargetDictionary[target];
+  //       if (index === undefined || child.morphTargetInfluences[index] === undefined) {
+  //         return;
+  //       }
+  //       child.morphTargetInfluences[index] = THREE.MathUtils.lerp(
+  //         child.morphTargetInfluences[index],
+  //         value,
+  //         speed
+  //       );
+  //     }
+  //   });
+  // };
+  ////// LerpFunc-2
 
 
+
+
+  // *********************** Morph Target Controls ***********************
 
 
 
