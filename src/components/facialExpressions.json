@@ -9,18 +9,106 @@
     "Sad": {
         "Sad": 1
     },
+
+    "Sad_00": {
+        "Sad": 0
+    },
+    "Sad_01": {
+        "Sad": 0.1
+    },
+    "Sad_02": {
+        "Sad": 0.2
+    },
+    "Sad_03": {
+        "Sad": 0.3
+    },
+    "Sad_04": {
+        "Sad": 0.4
+    },
+    "Sad_05": {
+        "Sad": 0.5
+    },
+    "Sad_06": {
+        "Sad": 0.6
+    },
+    "Sad_07": {
+        "Sad": 0.7
+    },
+    "Sad_08": {
+        "Sad": 0.8
+    },
+    "Sad_09": {
+        "Sad": 0.9
+    },
+    "Sad_10": {
+        "Sad": 1
+    },
+
+    "LookDownSurprisedHappyFace":{
+        "Lip_Smile": 0.2,
+        "Surprise": 0.5,
+        "eyeLookDown_L": 1,
+        "eyeLookDown_R": 1
+    },
+
+    "LookDownSurprisedHappyFace1":{
+        "Lip_Smile": 0.2,
+        "Surprise": 0.3,
+        "eyeLookDown_L": 1,
+        "eyeLookDown_R": 1
+    },
+    "LookDownSurprisedHappyFace2":{
+        "Lip_Smile": 0.2,
+        "Surprise": 0.1,
+        "eyeLookDown_L": 1,
+        "eyeLookDown_R": 1
+    },
+
+
+    "LookLeft": {
+        "eyeLookOut_L": 1,
+        "eyeLookIn_R": 1
+    },
+
+    "LookRight":{
+        "eyeLookOut_R": 1,
+        "eyeLookIn_L": 1
+    },
+    
+    "CuriousLookRight": {
+        "Lip_Smile": 0.3,
+        "Surprise": 1,
+        "eyeLookOut_L": 1,
+        "eyeLookUp_L": 1,
+        "eyeLookIn_R": 1,
+        "eyeLookUp_R": 1
+    },
     "Smile": {
         "Smile": 1,
         "Lip_Smile": 0.2
     },
-    "IdleSmile": {
-        "Lip_Smile": 0
+
+    "SmileBS": {
+        "Smile": 1,
+        "Lip_Smile": 1
     },
 
+    "OverConfident": {
+        "Lip_Smile": 0.5,
+        "Angry": 0.27,
+        "browInnerUp": 0.49
+    },
+     
+    "IdleSmile": {
+        "Lip_Smile": 0.6
+    },
 
+    "Angry_One_Side": {
+        "Angry_One_Side": 0.8
+    },
     
     "HappySurprised": {
-        "Surprise": 1,
+        "Surprise": 0.5,
         "Lip_Smile": 0.5
     },
 

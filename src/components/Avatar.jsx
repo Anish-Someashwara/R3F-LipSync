@@ -6,118 +6,6 @@ import * as THREE from "three";
 import facialExpressions from "./facialExpressions.json"
 
 
-// const facialExpressions = {
-//   default: {},
-//   Angry: {
-//     "Angry": 0.7
-//   },
-//   Surprise: {
-//     "Surprise": 1
-//   },
-//   Sad: {
-//     "Sad": 1,
-//     // "Lip_Sad": 0.55
-//   },
-//   Smile: {
-//     "Smile": 1,
-//     "Lip_Smile": 0.2
-//   },
-//   IdleSmile: {
-//     "Lip_Smile": 0
-//   },
-//   HappySurprised: {
-//     "Surprise": 1,
-//     "Lip_Smile": 0.5
-//   },
-//   Surprise_1: {
-//     "Surprise": 1,
-//   },
-//   Surprise_09: {
-//     "Surprise": 0.9,
-//   },
-//   Surprise_08: {
-//     "Surprise": 0.8,
-//   },
-//   Surprise_07: {
-//     "Surprise": 0.7,
-//   },
-//   Surprise_06: {
-//     "Surprise": 0.6,
-//   },
-//   Surprise_05: {
-//     "Surprise": 0.5,
-//   },
-//   Surprise_04: {
-//     "Surprise": 0.4,
-//   },
-//   Surprise_03: {
-//     "Surprise": 0.3,
-//   },
-//   Surprise_02: {
-//     "Surprise": 0.2,
-//   },
-//   Surprise_01: {
-//     "Surprise": 0.1,
-//   },
-//   Surprise_00: {
-//     "Surprise": 0,
-//   },
-
-//   SurpriseSad_08: {
-//     "Surprise": 0.8,
-//     "Lip_Sad": 0.6
-//   },
-
-//   Angry_1:{
-//     "Angry": 1,
-//   },
-//   Angry_09:{
-//     "Angry": 0.9
-//   },
-//   Angry_08:{
-//     "Angry": 0.8
-//   },
-//   Angry_07:{
-//     "Angry": 0.7
-//   },
-//   Angry_06:{
-//     "Angry": 0.6
-//   },
-//   Angry_05:{
-//     "Angry": 0.5
-//   },
-//   Angry_04:{
-//     "Angry": 0.4
-//   },
-//   Angry_03:{
-//     "Angry": 0.3
-//   },
-//   Angry_02:{
-//     "Angry": 0.2
-//   },
-//   Angry_01:{
-//     "Angry": 0.1
-//   },
-//   Angry_00:{
-//     "Angry": 0
-//   }
-  
-// }
-
-
-
-
-// const corresponding = {
-//   A: "viseme_PP",              // P_B_M
-//   B: "viseme_kk",              // EE
-//   C: "viseme_I",               // ER
-//   D: "viseme_AA",              // AA
-//   E: "viseme_O",               // Ow
-//   F: "viseme_U",               // Ow
-//   G: "viseme_FF",              // F
-//   H: "viseme_TH",              // ER
-//   X: "viseme_PP",              // P_B_M
-// };
 
 const corresponding = {
   A: "P_B_M",
@@ -129,24 +17,22 @@ const corresponding = {
   G: "ER",
   H: "ER",
   X: "P_B_M",
-  // Smile: "Smile"
 };
 
 export function Avatar(props) {
-  // console.log("fldkfjdkfj")
 
-
-  const { nodes, scene, materials, animations: smileAnimation } = useGLTF("./models/FacialExp9.gltf");
+  const { nodes, scene, materials, animations: smileAnimation } = useGLTF("./models/FacialExp10.gltf");
   const group = useRef();
   const { actions } = useAnimations( smileAnimation, group);
   const [animation, setAnimation] = useState("Idle");
   // console.log(smileAnimation)
+  smileAnimation[1].name = "Idle";
 
   // Play idle animation continuously
-  // useEffect(() => {
-  //   actions["Idle"].reset().fadeIn(0.5).play();
-  //   return () => actions["Idle"].fadeOut(0.5);
-  // }, [actions]);
+  useEffect(() => {
+    actions["Idle"].reset().fadeIn(0.5).play();
+    return () => actions["Idle"].fadeOut(0.5);
+  }, [actions]);
 
   // Play selected animation when it changes
   useEffect(() => {
@@ -177,8 +63,8 @@ export function Avatar(props) {
     smoothMorphTarget: true,
     morphTargetSmoothing: 0.40,
     script: {
-      value: "Bot-Intro-3",
-      options: ["Bot-Intro", "Bot-Intro-3", "pizzas", "LotteryPrank"],
+      value: "Puppy2",
+      options: ["Bot-Intro", "Bot-Intro-3", "pizzas", "LotteryPrank", "BusinessSales", "Puppy", "Puppy2" ],
     },
     animations: {
       value: animation,
@@ -603,12 +489,6 @@ export function Avatar(props) {
             skeleton={nodes.Body.skeleton}
           />
           <skinnedMesh
-            name="Eyes"
-            geometry={nodes.Eyes.geometry}
-            material={materials.Bodymat3}
-            skeleton={nodes.Eyes.skeleton}
-          />
-          <skinnedMesh
             name="Face"
             geometry={nodes.Face.geometry}
             material={materials.Bodymat3}
@@ -647,4 +527,4 @@ export function Avatar(props) {
   )
 }
 
-useGLTF.preload('./models/FacialExp9.gltf')
+useGLTF.preload('./models/FacialExp10.gltf')
