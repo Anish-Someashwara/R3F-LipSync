@@ -21,31 +21,69 @@ const corresponding = {
 
 export function Avatar(props) {
 
-  const { nodes, scene, materials, animations: smileAnimation } = useGLTF("./models/FacialExp10.gltf");
+  const { nodes, scene, materials, animations: smileAnimation } = useGLTF("./models/FacialExp11.gltf");
   const group = useRef();
   const { actions } = useAnimations( smileAnimation, group);
   const [animation, setAnimation] = useState("Idle");
   // console.log(smileAnimation)
-  smileAnimation[1].name = "Idle";
+  smileAnimation[3].name = "Idle";
+  
 
   // Play idle animation continuously
-  useEffect(() => {
-    actions["Idle"].reset().fadeIn(0.5).play();
-    return () => actions["Idle"].fadeOut(0.5);
-  }, [actions]);
+  // useEffect(() => {
+  //   actions["Idle"].reset().fadeIn(0.5).play();
+  //   return () => actions["Idle"].fadeOut(0.5);
+  // }, [actions]);
+
 
   // Play selected animation when it changes
   useEffect(() => {
-    if (animation !== "Idle") {
-      actions[animation].reset().fadeIn(0.5).play();
-      return () => actions[animation].fadeOut(0.5);
-    }
+    // if (animation !== "Idle") {
+    //   actions[animation].reset().fadeIn(0.5).play();
+    //   return () => actions[animation].fadeOut(0.5);
+    // }
+    actions[animation].reset().fadeIn(0.5).play();
+    return () => actions[animation].fadeOut(0.5);
   }, [animation, actions]);
 
   // useEffect(() => {
   //   actions[animation].reset().fadeIn(0.5).play();
   //   return () => actions[animation].fadeOut(0.5);
   // }, [animation]);
+
+  //********************************* */
+  // useEffect(() => {
+  //   if (actions[animation]) {
+  //     // Ensure the current animation plays only once
+  //     actions[animation].setLoop(THREE.LoopOnce, 1);
+  //     actions[animation].reset().fadeIn(0.5).play();
+
+  //     // Stop the animation at the end
+  //     actions[animation].clampWhenFinished = true;
+  //     actions[animation].paused = false;
+
+  //     // Listen for when the animation finishes
+  //     actions[animation].getMixer().addEventListener('finished', (event) => {
+  //       if (event.action === actions[animation]) {
+  //         setAnimation('Idle');
+  //       }
+  //     });
+
+  //     return () => {
+  //       actions[animation].fadeOut(0.5);
+  //       actions[animation].getMixer().removeEventListener('finished');
+  //     };
+  //   }
+  // }, [animation, actions]);
+
+  // useEffect(() => {
+  //   // Ensure the Idle animation plays in a loop when no other animation is playing
+  //   if (animation === "Idle" && actions.Idle) {
+  //     actions.Idle.setLoop(THREE.LoopRepeat);
+  //     actions.Idle.reset().fadeIn(0.5).play();
+  //   }
+  // }, [animation, actions]);
+  //********************************* */
 
   const [facialExpression, setFacialExpression] = useState("")
 
@@ -69,16 +107,16 @@ export function Avatar(props) {
     animations: {
       value: animation,
       // options: smileAnimation.map((a) => a.name),
-      options: smileAnimation.map(a => a.name).filter(name => name !== "Idle"),
+      options: smileAnimation.map(a => a.name),
       onChange: (value) => setAnimation(value),
     },
-    facialExpression: {
-      options: Object.keys(facialExpressions),
-      onChange: (value) => {
-        console.log("Changing Face Exp!", value)
-        setFacialExpression(value)
-      },
-    },
+    // facialExpression: {
+    //   options: Object.keys(facialExpressions),
+    //   onChange: (value) => {
+    //     console.log("Changing Face Exp!", value)
+    //     setFacialExpression(value)
+    //   },
+    // },
   });
 
   const audio = useMemo(() => new Audio(`./audios/${script}.mp3`), [script]);
@@ -87,7 +125,8 @@ export function Avatar(props) {
 
   
 
-  useFrame(() => {
+  useFrame((state, delta) => {
+      // console.log(state, delta)
     ///////// exp1
     !false &&
     Object.keys(nodes.Face.morphTargetDictionary).forEach((key) => {
@@ -122,6 +161,7 @@ export function Avatar(props) {
     if (audio.paused || audio.ended) {
       // if(audio.ended) playAudio = false;
       setFacialExpression('IdleSmile')
+      setAnimation('Idle');
       return;
     }
 
@@ -163,7 +203,7 @@ export function Avatar(props) {
         currentAudioTime >= mouthCue.start &&
         currentAudioTime <= mouthCue.end
       ) {
-        console.log("setting face exp: ", mouthCue.exp)
+        // console.log("setting face exp: ", mouthCue.exp)
         setFacialExpression(mouthCue.exp)
         if (!smoothMorphTarget) {
           nodes.Face.morphTargetInfluences[
@@ -197,6 +237,17 @@ export function Avatar(props) {
 
 
     ////// LipSync-2
+    // // Reset all morph target influences towards 0 smoothly
+    // Object.keys(corresponding).forEach((key) => {
+    //   const targetIndex = nodes.Face.morphTargetDictionary[corresponding[key]];
+
+    //   nodes.Face.morphTargetInfluences[targetIndex] = THREE.MathUtils.lerp(
+    //     nodes.Face.morphTargetInfluences[targetIndex],
+    //     0,
+    //     morphTargetSmoothing
+    //   );
+    // });
+
     // Object.values(corresponding).forEach((value) => {
     //   if (!smoothMorphTarget) {
     //     nodes.Face.morphTargetInfluences[
@@ -206,7 +257,7 @@ export function Avatar(props) {
     //     const targetInfluence = lipsync.mouthCues.reduce((acc, mouthCue) => {
     //       const cueValue = corresponding[mouthCue.value];
     //       if (value === cueValue && currentAudioTime >= mouthCue.start && currentAudioTime <= mouthCue.end) {
-    //         const intensity = mouthCue.intensity || 1; // Default intensity if not provided
+    //         const intensity = 1; // Default intensity if not provided
     //         acc = intensity;
     //         setFacialExpression(mouthCue.exp)
     //       }
@@ -228,6 +279,40 @@ export function Avatar(props) {
     ////// LipSync-2
 
 
+    ////// LipSync-3
+    // // Define a smoothing factor for transitions
+    // const smoothingFactor = 0.3;
+
+    // // Reset all morph target influences towards 0 smoothly
+    // Object.keys(corresponding).forEach((key) => {
+    //   const targetIndex = nodes.Face.morphTargetDictionary[corresponding[key]];
+
+    //   nodes.Face.morphTargetInfluences[targetIndex] = THREE.MathUtils.lerp(
+    //     nodes.Face.morphTargetInfluences[targetIndex],
+    //     0,
+    //     smoothingFactor
+    //   );
+    // });
+
+    // // Apply the appropriate mouth cue influence smoothly
+    // for (let i = 0; i < lipsync.mouthCues.length; i++) {
+    //   const mouthCue = lipsync.mouthCues[i];
+
+    //   if (currentAudioTime >= mouthCue.start && currentAudioTime <= mouthCue.end) {
+    //     const targetIndex = nodes.Face.morphTargetDictionary[corresponding[mouthCue.value]];
+
+    //     nodes.Face.morphTargetInfluences[targetIndex] = THREE.MathUtils.lerp(
+    //       nodes.Face.morphTargetInfluences[targetIndex],
+    //       1,
+    //       smoothingFactor
+    //     );
+
+    //     break;
+    //   }
+    // }
+    ////// LipSync-3
+
+
   });
 
 
@@ -241,13 +326,13 @@ export function Avatar(props) {
     
     if (playAudio) {
       audio.play();
-      if (script === "welcome") {
-        // setAnimation("Greeting");
+      if (script === "Puppy2") {
+        setAnimation("Talking_One");
       } else {
         // setAnimation("Angry");
       }
     } else {
-      // setAnimation("Idle");
+      setAnimation("Idle");
       audio.pause();
     }
 
@@ -527,4 +612,4 @@ export function Avatar(props) {
   )
 }
 
-useGLTF.preload('./models/FacialExp10.gltf')
+useGLTF.preload('./models/FacialExp11.gltf')

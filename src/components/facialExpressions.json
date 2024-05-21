@@ -104,7 +104,9 @@
     },
 
     "Angry_One_Side": {
-        "Angry_One_Side": 0.8
+        "Angry_One_Side": 0.8,
+        "eyeLookOut_L": 0.7,
+        "eyeLookIn_R": 0.7
     },
     
     "HappySurprised": {
