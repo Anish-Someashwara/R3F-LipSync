@@ -3,8 +3,8 @@ import { useThree } from "@react-three/fiber";
 import { Avatar } from "./Avatar";
 
 export const Experience = () => {
-  const texture = useTexture("textures/bg4.jpg");
-  const viewport = useThree((state) => state.viewport);
+  // const texture = useTexture("textures/bg4.jpg");
+  // const viewport = useThree((state) => state.viewport);
 
   return (
     <>
