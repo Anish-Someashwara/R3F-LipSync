@@ -17,6 +17,8 @@ export const Experience = () => {
         zoomSpeed={0.5} // Adjust the zoom speed for smoother zooming
         rotateSpeed={0.5} // Adjust the rotate speed for smoother rotation
         panSpeed={0.5} // Adjust the pan speed for smoother panning
+        maxDistance={11}
+        minDistance={6.5}
       />
       <Avatar position={[0, -3, 5]} scale={2} />
       <Environment preset="sunset" background blur={1} />

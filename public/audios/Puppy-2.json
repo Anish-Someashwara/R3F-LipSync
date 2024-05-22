@@ -48,9 +48,9 @@
     { "start": 7.53, "end": 7.61, "value": "A", "exp": "HappySurprised" },
     { "start": 7.61, "end": 7.88, "value": "C", "exp": "HappySurprised" },
     { "start": 7.88, "end": 7.95, "value": "B", "exp": "HappySurprised" },
-    { "start": 7.95, "end": 8.79, "value": "X", "exp": "HappySurprised" },
-    { "start": 8.79, "end": 8.91, "value": "A", "exp": "CuriousLookRight" },
-    { "start": 8.91, "end": 8.98, "value": "C", "exp": "CuriousLookRight" },
+    { "start": 7.95, "end": 8.79, "value": "X", "exp": "Smile" },
+    { "start": 8.79, "end": 8.91, "value": "A", "exp": "Smile" },
+    { "start": 8.91, "end": 8.98, "value": "C", "exp": "Smile" },
     { "start": 8.98, "end": 9.05, "value": "B", "exp": "CuriousLookRight" },
     { "start": 9.05, "end": 9.46, "value": "X", "exp": "CuriousLookRight" },
     { "start": 9.46, "end": 9.68, "value": "B", "exp": "CuriousLookRight" },
@@ -110,10 +110,10 @@
     { "start": 19.52, "end": 19.59, "value": "B", "exp": "HappySurprised" },
     { "start": 19.59, "end": 19.73, "value": "C", "exp": "HappySurprised" },
     { "start": 19.73, "end": 19.80, "value": "B", "exp": "HappySurprised" },
-    { "start": 19.80, "end": 19.94, "value": "G", "exp": "HappySurprised" },
-    { "start": 19.94, "end": 20.08, "value": "C", "exp": "HappySurprised" },
-    { "start": 20.08, "end": 20.15, "value": "B", "exp": "HappySurprised" },
-    { "start": 20.15, "end": 20.36, "value": "E", "exp": "HappySurprised" },
-    { "start": 20.36, "end": 20.61, "value": "X", "exp": "HappySurprised" }
+    { "start": 19.80, "end": 19.94, "value": "G", "exp": "Smile" },
+    { "start": 19.94, "end": 20.08, "value": "C", "exp": "Smile" },
+    { "start": 20.08, "end": 20.15, "value": "B", "exp": "Smile" },
+    { "start": 20.15, "end": 20.36, "value": "E", "exp": "Smile" },
+    { "start": 20.36, "end": 20.61, "value": "X", "exp": "Smile" }
   ]
 }

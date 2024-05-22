@@ -21,12 +21,15 @@ const corresponding = {
 
 export function Avatar(props) {
 
+  // const { animations: greetingAnimation } = useFBX("./animations/Standing Greeting.fbx");
+
   const { nodes, scene, materials, animations: smileAnimation } = useGLTF("./models/FacialExp11.gltf");
   const group = useRef();
-  const { actions } = useAnimations( smileAnimation, group);
+  const { actions } = useAnimations( [smileAnimation[0], smileAnimation[1], smileAnimation[2], smileAnimation[3]], group);
   const [animation, setAnimation] = useState("Idle");
-  // console.log(smileAnimation)
+  // console.log(greetingAnimation)
   smileAnimation[3].name = "Idle";
+  // greetingAnimation[0].name = "GreetingAnimation"
   
 
   // Play idle animation continuously
@@ -101,15 +104,16 @@ export function Avatar(props) {
     smoothMorphTarget: true,
     morphTargetSmoothing: 0.40,
     script: {
-      value: "Puppy2",
-      options: ["Bot-Intro", "Bot-Intro-3", "pizzas", "LotteryPrank", "BusinessSales", "Puppy", "Puppy2" ],
+      value: "Puppy-2",
+      options: ["LotteryPrank", "BusinessSales-1", "BusinessSales-2", "Puppy-1", "Puppy-2", "Puppy-3", "pizzas"],
+      // options: ["LotteryPrank", "BusinessSales", "Puppy1", "Puppy2", "Puppy3", "pizzas", "Bot-Intro", "Bot-Intro-3",],
     },
-    animations: {
-      value: animation,
-      // options: smileAnimation.map((a) => a.name),
-      options: smileAnimation.map(a => a.name),
-      onChange: (value) => setAnimation(value),
-    },
+    // animations: {
+    //   value: animation,
+    //   // options: smileAnimation.map((a) => a.name),
+    //   options: smileAnimation.map(a => a.name),
+    //   onChange: (value) => setAnimation(value),
+    // },
     // facialExpression: {
     //   options: Object.keys(facialExpressions),
     //   onChange: (value) => {
@@ -323,15 +327,21 @@ export function Avatar(props) {
 
 
   useEffect(() => {
-    
+
+    // console.log("fd")
     if (playAudio) {
       audio.play();
-      if (script === "Puppy2") {
+      if (script === "Puppy-3") {
         setAnimation("Talking_One");
-      } else {
-        // setAnimation("Angry");
+      } 
+      else if(script === "BusinessSales-2") {
+        setAnimation("Talking_Two");
       }
-    } else {
+      else if(script === "Bot-Intro-3"){
+        // setAnimation("GreetingAnimation")
+      }
+    } 
+    else {
       setAnimation("Idle");
       audio.pause();
     }
