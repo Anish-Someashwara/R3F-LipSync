@@ -21,9 +21,20 @@ const corresponding = {
 
 export function Avatar(props) {
 
-  // const { animations: greetingAnimation } = useFBX("./animations/Standing Greeting.fbx");
-
   const { nodes, scene, materials, animations: smileAnimation } = useGLTF("./models/FacialExp11.gltf");
+  
+  useEffect(() => {
+    scene.traverse((child) => {
+      if (child.isMesh) {
+        console.log("Enabling Shadows for Character!")
+        child.castShadow = true;
+        child.receiveShadow = true;
+        child.material.needsUpdate = true; // Ensure material updates to support shadows
+      }
+    });
+  }, [scene]);
+
+
   const group = useRef();
   const { actions } = useAnimations( [smileAnimation[0], smileAnimation[1], smileAnimation[2], smileAnimation[3]], group);
   const [animation, setAnimation] = useState("Idle");
